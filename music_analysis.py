@@ -1,6 +1,7 @@
 import csv
 import pylast
 import time
+from collections import Counter
 
 
 def parse_pylast_top_tags(top_tags):
@@ -27,8 +28,8 @@ def adjust_tag_counts(current_song_tags,all_tags_with_counts):
 def print_tag_counts_to_csv(all_tags_with_counts):
     tags_filename="/Users/kcingel/PycharmProjects/my_music_library_analysis/MusicLibraryTagCounts.csv"
     tags_file = open(tags_filename,"w")
-    for tag_name,tag_count in all_tags_with_counts.items():
-        tags_file.write(tag_name + "," + str(tag_count) + "\n")
+    for tag_count in all_tags_with_counts:
+        tags_file.write(tag_count[0] + "," + str(tag_count[1]) + "\n")
     tags_file.close()
 
 API_KEY = "4d9b3cb29dbdb6d8b3c760c507c0ceb0"
@@ -45,8 +46,9 @@ master_music_library_file = open(master_music_library_filename,"w")
 
 all_songs = {}
 
+all_tags = []
 # Keeps track of all the tags and the number of times they appear in my music library
-all_tags_with_counts={}
+# all_tags_with_counts={}
 
 with open(music_library_filename,'r',encoding='iso-8859-1') as music_library_csv:
     csv_reader = csv.reader(music_library_csv,delimiter=',')
@@ -70,8 +72,10 @@ with open(music_library_filename,'r',encoding='iso-8859-1') as music_library_csv
         tags = parse_pylast_top_tags(pylast_tags)
         all_songs[song_name]['tags']=tags
 
+        for tag in tags:
+            all_tags.append(tag)
         # Add the current tags to the dictionary keeping track of all tag counts
-        adjust_tag_counts(tags,all_tags_with_counts)
+        # adjust_tag_counts(tags,all_tags_with_counts)
 
         # Write the song name, artist, album and date the song was added to the music library to csv file
         master_music_library_file.write(song_name + ",")
@@ -90,7 +94,9 @@ with open(music_library_filename,'r',encoding='iso-8859-1') as music_library_csv
         master_music_library_file.write('\n')
 
     master_music_library_file.close()
-    print_tag_counts_to_csv(all_tags_with_counts)
+    all_tags_with_counts=Counter(all_tags)
+    ordered_all_tags_with_counts = all_tags_with_counts.most_common()
+    print_tag_counts_to_csv(ordered_all_tags_with_counts)
 
 
 
