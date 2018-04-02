@@ -9,6 +9,7 @@ def parse_pylast_top_tags(top_tags):
         tags.append(tag.item.name.lower())
     return tags
 
+
 API_KEY = "4d9b3cb29dbdb6d8b3c760c507c0ceb0"
 API_SECRET = "d71a1d2bb2354bd1d6af3d6d129779da"
 
@@ -30,6 +31,7 @@ name="Animal"
 track=network.get_track(artist,name)
 track.get_top_tags(limit=None)
 all_songs = {}
+
 with open(music_library_filename,'r',encoding='iso-8859-1') as music_library_csv:
     csv_reader = csv.reader(music_library_csv,delimiter=',')
     for row in csv_reader:
@@ -46,13 +48,27 @@ with open(music_library_filename,'r',encoding='iso-8859-1') as music_library_csv
             print(track)
             time.sleep(2)
             pylast_tags = track.get_top_tags(limit=None)
-            tags = parse_pylast_top_tags(pylast_tags)
-            print(tags)
         except:
             print("Track " + song_name + " not found")
             continue;
+        tags = parse_pylast_top_tags(pylast_tags)
+        all_songs[song_name]['tags']=tags
 
+        master_music_library_file.write(song_name + ",")
+        master_music_library_file.write(all_songs[song_name]['artist'] + ",")
+        master_music_library_file.write(all_songs[song_name]['album'] + ",")
+        master_music_library_file.write(all_songs[song_name]['added date'] + ",")
 
+        length_song_tags = len(all_songs[song_name]['tags'])
+        for i in range(0,length_song_tags):
+            tag=tags[i]
+            if(i==(length_song_tags-2)):
+                master_music_library_file.write(tag)
+            else:
+                master_music_library_file.write(tag + ",")
+        master_music_library_file.write('\n')
+
+    master_music_library_file.close()
 
 
 
