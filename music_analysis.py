@@ -1,5 +1,5 @@
 import csv
-import pylast
+import pylastmaster.pylast as pylast
 import time
 from collections import Counter
 
