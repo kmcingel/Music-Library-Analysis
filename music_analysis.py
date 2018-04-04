@@ -32,6 +32,7 @@ def print_tag_counts_to_csv(all_tags_with_counts):
         tags_file.write(tag_count[0] + "," + str(tag_count[1]) + "\n")
     tags_file.close()
 
+# For using last_fm's API
 API_KEY = "4d9b3cb29dbdb6d8b3c760c507c0ceb0"
 API_SECRET = "d71a1d2bb2354bd1d6af3d6d129779da"
 
