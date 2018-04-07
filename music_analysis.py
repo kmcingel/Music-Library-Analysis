@@ -37,7 +37,7 @@ API_KEY = "4d9b3cb29dbdb6d8b3c760c507c0ceb0"
 API_SECRET = "d71a1d2bb2354bd1d6af3d6d129779da"
 
 username="kcingel"
-password_hash = pylast.md5("Don'tStealMyPwd1995!")
+password_hash = pylast.md5("")
 network = pylast.LastFMNetwork(api_key = API_KEY, api_secret = API_SECRET, username = username, password_hash = password_hash)
 music_library_filename="/Users/kcingel/PycharmProjects/my_music_library_analysis/KaseysMusicLibrary.csv"
 
